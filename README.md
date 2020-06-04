@@ -18,7 +18,8 @@ Get high-resolution data into Munin now!
 | ![perfmon2munin collected disk performance data](img/munin-perfmon.png) | | ![perfmon2munin collected disk performance data](img/munin-disktime.png) |
 
 # Requirements
-Requires a configured recent version of _Munin Node for Windows_ 
+Requires a configured recent (1.7.3 or newer) version of _Munin Node for Windows_ from the 
+[munin-node-win32 repository](https://github.com/munin-monitoring/munin-node-win32/releases)
 
 # Installation
 Running `install.bat` with administrative privileges will 
