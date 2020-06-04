@@ -11,6 +11,11 @@ multigraph / supersampling format.
 - configurable scaling
 - pre-defined collection templates
 
+Get high-resolution data into Munin now!
+
+| perfmon2munin collected disk performance data | vs | Munin Node for Windows native disk performance plugin |
+|-------|-------|
+| ![perfmon2munin collected disk performance data](img/munin-perfmon.png =400x) | | ![perfmon2munin collected disk performance data](img/munin-disktime.png =400x) |
 
 # Requirements
 Requires a configured recent version of _Munin Node for Windows_ 
