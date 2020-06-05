@@ -11,7 +11,10 @@ multigraph / supersampling format.
 - configurable scaling
 - pre-defined collection templates
 
-Get high-resolution data into Munin now!
+**Get high-resolution data into Munin now!**
+
+This is how a 1-hour-graph hour looks in 15-second resolution vs the
+5-minute resolution provided by the built-in Munin Node for Windows plugins:
 
 | perfmon2munin collected disk performance data | vs | Munin Node for Windows native disk performance plugin |
 | ------- | --- | ------- |
@@ -64,7 +67,19 @@ When adding new collector sets, make sure to set the following parameters:
 
    ![Perfmon Datacollectorset Start](img/perfmon-datacollectorset-start.png)
 
-## plugin configuration options
+### Notes on higher resolution collections
+If you have changed the resolution to a value lower than 15 seconds, you would need to change the 
+value of the `LINESTOFETCH` variable in `perfmon2munin.bat`. The default value is 50, meaning that
+the plugin will return at most 15\*50 = 750 seconds worth of hi-res data when queried by the Munin server.
+A higher resolution would require a higher LINESTOFETCH value. As a rule of thumb, make sure you return 
+data for a period of slightly more than 2\*(_Munin polling interval_). If you have set resolution down 
+to 1 second, set `LINESTOFETCH` to 650.
+
+Note there is an overall limit for the data the plugin may return. The buffer _Munin Node for Windows_ reserves 
+for plugin data is 4 MB in size. Everything larger than that will be truncated and your Munin server will
+subsequently discard all of the data coming from the plugin.
+
+## Plugin configuration options
 The plugin uses two additional configuration files to draw definitions from:
 
 ### perfmon2munin-viewscale.conf
@@ -103,6 +118,6 @@ of the entries in the `perfmon2munin-gauges.conf` file.
 # Author
 Denis Jedig
 
-on behalf of: Cologne University of Applied Sciences (TH Köln), Germany
+originally created for: Cologne University of Applied Sciences (TH Köln), Germany
 
 2017-02-20
