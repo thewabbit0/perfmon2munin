@@ -30,12 +30,47 @@ Running `install.bat` with administrative privileges will
 
 
 # Configuration
+## adding new graphs
+
+If you want to add more graphs or alter the data sources of the predefined ones, you can do so by adding / editing
+_User Defined Data Collector Sets_ in perfmon:
+
+![Perfmon Datacollectorsets](img/perfmon-datacollectorsets.png)
+
+When adding new collector sets, make sure to set the following parameters:
+1. Create a new data collector set with advanced options. The name you give the set will be the name 
+   of the graph in Munin.
+    
+   ![Perfmon Newdatacollectorset Wizard1](img/perfmon-newdatacollectorset-wizard1.png)
+2. Choose _Create data logs_ and check _Performance counter_ as the only option
+   
+   ![Perfmon Newdatacollectorset Wizard2](img/perfmon-newdatacollectorset-wizard2.png)
+3. Add the desired performance counters and change the sample interval, if necessary
+   
+   ![Perfmon Newdatacollectorset Wizard3](img/perfmon-newdatacollectorset-wizard3.png)
+4. edit the created Data Collector's properties, set the log format to _"Comma Separated"_
+    
+   ![Perfmon Datacollector Contextmenu](img/perfmon-datacollector-contextmenu.png)
+   
+   ![Perfmon Datacollector Logformat](img/perfmon-datacollector-logformat.png)
+5. add a schedule to the Data Collector Set's properties
+
+    ![Perfmon Datacollectorset Schedule](img/perfmon-datacollectorset-schedule.png)
+6. make sure the data collector set restarts once a day
+
+   ![Perfmon Datacollectorset Restart](img/perfmon-datacollectorset-restart.png)
+
+7. start the data collector set
+
+   ![Perfmon Datacollectorset Start](img/perfmon-datacollectorset-start.png)
+
+## plugin configuration options
 The plugin uses two additional configuration files to draw definitions from:
 
-## perfmon2munin-viewscale.conf
+### perfmon2munin-viewscale.conf
 contains a single JSON key:value hashtable where 
 "key" is the perfmon value name to define a viewscale for and "value" is the
-unit multiplier to use for Munin data display.
+unit multiplier to use for Munin data display
 
 Example:
 
@@ -49,13 +84,21 @@ is unaffected by this definition - it still would contain the raw byte value.
 "Nice" SI metric prefix names (like "milliunits" or "Teraunits") are defined for a number of scale definitions and appended to the
 counter descriptions in Munin.
 
-## perfmon2munin-gauges.conf
+### perfmon2munin-gauges.conf
 contains a JSON array with a number of string
 entries defining whether counters should be interpreted as point-in-time GAUGEs instead of
 as ever-incremented COUNTERs, where delta values between measurements are calculated 
-and normalized by the time passed inbetween measurements. The default is to 
-return all data as COUNTERs, except for those counter names regex-matched by one 
-of the entries in the $regexGaugePath file.
+and normalized by the time passed inbetween measurements.
+
+The default is to return all data as COUNTERs, except for those counter names regex-matched by one 
+of the entries in the `perfmon2munin-gauges.conf` file.
+
+# Related work
+* The original PerfCounterPlugin for Munin Node for Windows https://github.com/munin-monitoring/munin-node-win32
+  * requires no additional installation - is already present with every _Munin Node for Windows_ installation
+  * does not support supersampling / returns only a single value per poll, thus limiting data resolution to the polling interval
+  * does not support more than one data line per graph
+
 
 # Author
 Denis Jedig
